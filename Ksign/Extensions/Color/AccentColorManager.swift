@@ -12,7 +12,7 @@ import UIKit
 class AccentColorManager: ObservableObject {
     static let shared = AccentColorManager()
     
-    // Rainbow color index constant
+    // Rainbow color index constant (uses pink as fallback for UIKit tint)
     static let rainbowIndex = 13
     
     @AppStorage("Feather.accentColor") private var _selectedAccentColor: Int = 0 {
@@ -35,7 +35,7 @@ class AccentColorManager: ObservableObject {
         (.mint, .systemMint),
         (.cyan, .systemCyan),
         (.teal, .systemTeal),
-        (.pink, .systemPink) // Rainbow - uses pink as fallback for UIKit tint
+        (.pink, .systemPink) // Index 13 (rainbow)
     ]
     
     static let rainbowColors: [Color] = [
