@@ -12,6 +12,9 @@ import UIKit
 class AccentColorManager: ObservableObject {
     static let shared = AccentColorManager()
     
+    // Rainbow color index constant (uses pink as fallback for UIKit tint)
+    static let rainbowIndex = 13
+    
     @AppStorage("Feather.accentColor") private var _selectedAccentColor: Int = 0 {
         didSet {
             objectWillChange.send()
@@ -31,7 +34,19 @@ class AccentColorManager: ObservableObject {
         (.indigo, .systemIndigo),
         (.mint, .systemMint),
         (.cyan, .systemCyan),
-        (.teal, .systemTeal)
+        (.teal, .systemTeal),
+        (.pink, .systemPink) // Index 13 (rainbow)
+    ]
+    
+    static let rainbowColors: [Color] = [
+        .red,
+        .orange,
+        .yellow,
+        .green,
+        .blue,
+        .indigo,
+        .purple,
+        .red
     ]
     
     var currentAccentColor: Color {
@@ -46,6 +61,10 @@ class AccentColorManager: ObservableObject {
             return _accentColors[0].uiColor
         }
         return _accentColors[_selectedAccentColor].uiColor
+    }
+    
+    var isRainbowSelected: Bool {
+        return _selectedAccentColor == AccentColorManager.rainbowIndex
     }
     
     /// Updates the global app tint color

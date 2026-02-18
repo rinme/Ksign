@@ -1,0 +1,53 @@
+name: Build and Upload Artifacts
+
+on:
+  pull_request:
+    branches: [ "main" ]
+  push:
+    branches-ignore:
+      - "main"
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build IPA
+    runs-on: macos-latest
+    permissions:
+      contents: read
+      actions: read
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Build IPA
+        run: |
+          make
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ksign-${{ github.sha }}
+          path: packages/Ksign.ipa
+          retention-days: 30
+          if-no-files-found: error
+
+      - name: Upload Build Summary
+        run: |
+          echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Build completed successfully!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Artifact Details" >> $GITHUB_STEP_SUMMARY
+          echo "- **Artifact Name:** Ksign-${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **IPA Path:** packages/Ksign.ipa" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit SHA:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f packages/Ksign.ipa ]; then
+            SIZE=$(du -h packages/Ksign.ipa | cut -f1)
+            echo "- **IPA Size:** $SIZE" >> $GITHUB_STEP_SUMMARY
+          fi
