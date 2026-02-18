@@ -86,7 +86,7 @@ struct AppearanceView: View {
 								Circle()
 									.fill(
 										AngularGradient(
-											gradient: Gradient(colors: [.red, .orange, .yellow, .green, .blue, .indigo, .purple, .red]),
+											gradient: Gradient(colors: AccentColorManager.rainbowColors),
 											center: .center
 										)
 									)
@@ -164,7 +164,7 @@ struct AppearanceView: View {
 				Circle()
 					.fill(
 						AngularGradient(
-							gradient: Gradient(colors: [.red, .orange, .yellow, .green, .blue, .indigo, .purple, .red]),
+							gradient: Gradient(colors: AccentColorManager.rainbowColors),
 							center: .center
 						)
 					)

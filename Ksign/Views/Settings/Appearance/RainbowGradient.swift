@@ -10,20 +10,9 @@ import SwiftUI
 struct RainbowGradient: View {
     @State private var animationOffset: CGFloat = 0
     
-    private let rainbowColors: [Color] = [
-        .red,
-        .orange,
-        .yellow,
-        .green,
-        .blue,
-        .indigo,
-        .purple,
-        .red
-    ]
-    
     var body: some View {
         LinearGradient(
-            gradient: Gradient(colors: rainbowColors),
+            gradient: Gradient(colors: AccentColorManager.rainbowColors),
             startPoint: .leading,
             endPoint: .trailing
         )

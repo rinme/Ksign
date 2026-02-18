@@ -32,7 +32,18 @@ class AccentColorManager: ObservableObject {
         (.mint, .systemMint),
         (.cyan, .systemCyan),
         (.teal, .systemTeal),
-        (.pink, .systemPink) // Rainbow uses pink as fallback for UIKit
+        (.pink, .systemPink) // Rainbow - uses pink as fallback for UIKit tint
+    ]
+    
+    static let rainbowColors: [Color] = [
+        .red,
+        .orange,
+        .yellow,
+        .green,
+        .blue,
+        .indigo,
+        .purple,
+        .red
     ]
     
     var currentAccentColor: Color {
