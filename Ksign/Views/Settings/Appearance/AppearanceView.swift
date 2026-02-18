@@ -161,19 +161,9 @@ struct AppearanceView: View {
 	private func _accentColorPreview() -> some View {
 		HStack(spacing: 9) {
 			if accentColorManager.isRainbowSelected {
-				Circle()
-					.fill(
-						AngularGradient(
-							gradient: Gradient(colors: AccentColorManager.rainbowColors),
-							center: .center
-						)
-					)
+				RainbowGradient()
+					.mask(Circle())
 					.frame(width: 57, height: 57)
-					.overlay(
-						RainbowGradient()
-							.mask(Circle())
-							.frame(width: 57, height: 57)
-					)
 			} else {
 				Circle()
 					.fill(currentAccentColor)
