@@ -31,7 +31,8 @@ class AccentColorManager: ObservableObject {
         (.indigo, .systemIndigo),
         (.mint, .systemMint),
         (.cyan, .systemCyan),
-        (.teal, .systemTeal)
+        (.teal, .systemTeal),
+        (.pink, .systemPink) // Rainbow uses pink as fallback for UIKit
     ]
     
     var currentAccentColor: Color {
@@ -46,6 +47,10 @@ class AccentColorManager: ObservableObject {
             return _accentColors[0].uiColor
         }
         return _accentColors[_selectedAccentColor].uiColor
+    }
+    
+    var isRainbowSelected: Bool {
+        return _selectedAccentColor == _accentColors.count - 1
     }
     
     /// Updates the global app tint color

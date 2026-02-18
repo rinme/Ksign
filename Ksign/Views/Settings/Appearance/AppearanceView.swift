@@ -28,7 +28,7 @@ struct AppearanceView: View {
 	@AppStorage("Feather.accentColor") private var _selectedAccentColor: Int = 0
 	@StateObject private var accentColorManager = AccentColorManager.shared
     
-	private let _accentColors: [(name: String, color: Color)] = [
+	private let _accentColors: [(name: String, color: Color?)] = [
 		(.localized("Default"), Color(red: 0x53/255, green: 0x94/255, blue: 0xF7/255)),
 		(.localized("Cherry"), Color(red: 0xFF/255, green: 0x8B/255, blue: 0x92/255)),
 		(.localized("Red"), .red),
@@ -41,7 +41,8 @@ struct AppearanceView: View {
 		(.localized("Indigo"), .indigo),
 		(.localized("Mint"), .mint),
 		(.localized("Cyan"), .cyan),
-		(.localized("Teal"), .teal)
+		(.localized("Teal"), .teal),
+		(.localized("Rainbow"), nil)
 	]
 	
 	private var currentAccentColor: Color {
@@ -76,9 +77,21 @@ struct AppearanceView: View {
 				Picker(.localized("Accent Color"), selection: $_selectedAccentColor) {
 					ForEach(_accentColors.indices, id: \.description) { index in
 						HStack {
-							Circle()
-								.fill(_accentColors[index].color)
-								.frame(width: 20, height: 20)
+							if let color = _accentColors[index].color {
+								Circle()
+									.fill(color)
+									.frame(width: 20, height: 20)
+							} else {
+								// Rainbow gradient circle
+								Circle()
+									.fill(
+										AngularGradient(
+											gradient: Gradient(colors: [.red, .orange, .yellow, .green, .blue, .indigo, .purple, .red]),
+											center: .center
+										)
+									)
+									.frame(width: 20, height: 20)
+							}
 							Text(_accentColors[index].name)
 						}
 						.tag(index)
@@ -147,9 +160,25 @@ struct AppearanceView: View {
 	@ViewBuilder
 	private func _accentColorPreview() -> some View {
 		HStack(spacing: 9) {
-			Circle()
-				.fill(currentAccentColor)
-				.frame(width: 57, height: 57)
+			if accentColorManager.isRainbowSelected {
+				Circle()
+					.fill(
+						AngularGradient(
+							gradient: Gradient(colors: [.red, .orange, .yellow, .green, .blue, .indigo, .purple, .red]),
+							center: .center
+						)
+					)
+					.frame(width: 57, height: 57)
+					.overlay(
+						RainbowGradient()
+							.mask(Circle())
+							.frame(width: 57, height: 57)
+					)
+			} else {
+				Circle()
+					.fill(currentAccentColor)
+					.frame(width: 57, height: 57)
+			}
 			
 			NBTitleWithSubtitleView(
 				title: .localized("Accent Color"),
